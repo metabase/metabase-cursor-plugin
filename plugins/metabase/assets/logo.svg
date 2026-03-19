@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Metabase Logo</title>
+  <desc id="desc">Metabase plugin logo.</desc>
+  <rect width="128" height="128" rx="20" fill="#509EE3" />
+  <circle cx="64" cy="50" r="18" fill="#fff" />
+  <rect x="30" y="76" width="68" height="10" rx="5" fill="#fff" />
+  <rect x="38" y="92" width="52" height="10" rx="5" fill="#fff" />
+</svg>

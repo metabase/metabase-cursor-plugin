@@ -1,24 +1,19 @@
 {
-  "name": "cursor-plugin-starters",
+  "name": "metabase-cursor-plugin",
   "owner": {
-    "name": "Your Org",
-    "email": "plugins@example.com"
+    "name": "Metabase",
+    "email": "support@metabase.com"
   },
   "metadata": {
-    "description": "Starter marketplace template for Cursor plugins",
+    "description": "Cursor plugin for Metabase, powered by the Metabase MCP server",
     "version": "0.1.0",
     "pluginRoot": "plugins"
   },
   "plugins": [
     {
-      "name": "starter-simple",
-      "source": "./plugins/starter-simple",
-      "description": "Minimal plugin with rules and skills only"
-    },
-    {
-      "name": "starter-advanced",
-      "source": "./plugins/starter-advanced",
-      "description": "Full-featured plugin with rules, skills, agents, commands, hooks, and MCP"
+      "name": "metabase",
+      "source": "./metabase",
+      "description": "Connect Cursor to Metabase via the built-in MCP server"
     }
   ]
 }

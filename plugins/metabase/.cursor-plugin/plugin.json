@@ -1,0 +1,13 @@
+{
+  "name": "metabase",
+  "displayName": "Metabase",
+  "version": "0.1.0",
+  "description": "Connect Cursor to Metabase via the built-in MCP server.",
+  "author": {
+    "name": "Metabase",
+    "email": "support@metabase.com"
+  },
+  "license": "MIT",
+  "keywords": ["metabase", "mcp", "analytics", "bi", "data"],
+  "logo": "assets/logo.svg"
+}
