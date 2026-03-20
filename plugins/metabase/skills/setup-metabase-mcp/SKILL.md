@@ -3,47 +3,31 @@ name: setup-metabase-mcp
 description: Read these instructions before using Metabase MCP tools. Setup is needed to connect to Metabase instances via the built-in MCP server.
 ---
 
-The configuration for the Metabase MCP lives at `../../mcp.json`. By default, the `url` field contains `{METABASE_INSTANCE_PLACEHOLDER}` which must be replaced with the user's actual Metabase instance URL.
+Read these mandatory configuration steps for using the Metabase MCP server before querying data, dashboards, questions, and related resources.
 
-## Setup
+## Key Configuration Steps
 
-1. Read the `mcp.json` file at `../../mcp.json`, relative to this SKILL.md file.
+**Location**: The MCP configuration file resides at `../../mcp.json` relative to this document.
 
-2. Ask the user for their Metabase instance URL.
+**Important Requirement**: The configuration contains a placeholder `{METABASE_INSTANCE_PLACEHOLDER}` that must be replaced with the user's Metabase instance URL before proceeding.
 
-   Give these examples to help them identify it:
-   - Local development: `http://localhost:3000`
-   - Metabase Cloud: `https://yourcompany.metabaseapp.com`
-   - Self-hosted: `https://metabase.yourcompany.com`
+## Valid Instance URL Formats
 
-   If `{METABASE_INSTANCE_PLACEHOLDER}` is not in the file, skip the remaining steps and proceed with using the Metabase MCP.
+- Local development: `http://localhost:3000`
+- Metabase Cloud: `https://yourcompany.metabaseapp.com`
+- Self-hosted: `https://metabase.yourcompany.com`
 
-   Do not read other files or inspect MCP tool schemas while `{METABASE_INSTANCE_PLACEHOLDER}` is still present. The MCP will not work until it is replaced.
+## Required Actions
 
-3. Once the user provides their URL, check whether their Metabase instance supports the built-in MCP server (requires v1.60+):
-
+1. Check `../../mcp.json` for the placeholder `{METABASE_INSTANCE_PLACEHOLDER}`
+2. If the placeholder is already replaced with a real URL, proceed with Metabase MCP usage — no further setup needed
+3. If the placeholder still exists, ask the user for their Metabase instance URL (do not mention the placeholder — just tell them the MCP needs their Metabase URL to connect)
+4. Verify the instance supports the built-in MCP server (requires Metabase 60+):
    ```bash
-   curl -s <METABASE_INSTANCE_URL>/api/session/properties | grep -o '"tag":"[^"]*"'
+   curl -s <INSTANCE_URL>/api/session/properties | grep -o '"tag":"[^"]*"'
    ```
+   If the major version is below 60, inform the user they need to upgrade and do not update `mcp.json`
+5. Replace the placeholder in `../../mcp.json` with the user's instance URL (no trailing slash)
+6. Instruct the user to reload their window via Command Palette (⌘⇧P on Mac; Ctrl+Shift+P on Windows/Linux)
 
-   If `jq` is available:
-
-   ```bash
-   curl -s <METABASE_INSTANCE_URL>/api/session/properties | jq .version.tag
-   ```
-
-   This endpoint requires no authentication. It returns a version tag like `v1.60.0` or `v0.58.3`. Extract the major version number (e.g. `60` from `v1.60.0`).
-
-4. **If major version < 60:**
-
-   Tell the user:
-
-   > Your Metabase instance is running **Metabase XX**, which does not include the built-in MCP server. The built-in MCP server requires **Metabase 60 or later**. Please upgrade your Metabase instance and run this setup again.
-
-   Do not update `mcp.json`.
-
-5. **If major version >= 60:**
-
-   Update `../../mcp.json` by replacing `{METABASE_INSTANCE_PLACEHOLDER}` with the user's instance URL (without a trailing slash).
-
-6. Let the user know the file has been updated and ask them to reload Cursor by opening the Command Palette (⌘⇧P on Mac, Ctrl+Shift+P on Windows/Linux) and running **"Reload Window"**.
+**Important**: Do not attempt to access MCP tools or schemas until the instance URL is properly configured.
