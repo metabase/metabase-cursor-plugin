@@ -5,9 +5,9 @@ description: Read these instructions before using Metabase MCP tools. Setup is n
 
 Read these mandatory configuration steps for using the Metabase MCP server before querying data, dashboards, questions, and related resources.
 
-**Location**: The MCP configuration file is `../../mcp.json` relative to this SKILL.md file - two directories up, in the same folder that contains the `skills/` directory. Always resolve this path relative to this SKILL.md file, never relative to the user's open project.
+**Location**: The MCP configuration file is `../../mcp.json` relative to this SKILL.md file — two directories up, in the same folder that contains the `skills/` directory. Always resolve this path relative to this SKILL.md file, never relative to the user's open project.
 
-**Important Requirement**: The configuration contains a placeholder `{METABASE_INSTANCE_PLACEHOLDER}` that must be replaced with the user's Metabase instance URL before proceeding.
+**Important Requirement**: The `url` field in that file may contain `{METABASE_INSTANCE_PLACEHOLDER}` as the base URL (e.g. `"{METABASE_INSTANCE_PLACEHOLDER}/api/mcp"`). If so, it must be replaced with the user's actual Metabase instance URL before the MCP can work.
 
 ## Valid Instance URL Formats
 
@@ -17,11 +17,13 @@ Read these mandatory configuration steps for using the Metabase MCP server befor
 
 ## Required Actions
 
-1. Check `../../mcp.json` relative to this SKILL.md file for the placeholder `{METABASE_INSTANCE_PLACEHOLDER}`. Do not read any `mcp.json` from the user's project directory.
+1. Read `../../mcp.json` relative to this SKILL.md file.
 
-2. If the placeholder is already replaced with a real URL, proceed with Metabase MCP usage — no further setup needed
+2. Check whether the `url` field contains `{METABASE_INSTANCE_PLACEHOLDER}`.
+   - **If it does NOT contain `{METABASE_INSTANCE_PLACEHOLDER}`**: the MCP is already configured. **Immediately proceed with using the Metabase MCP. Do not ask the user for a URL under any circumstances.**
+   - **If it does contain `{METABASE_INSTANCE_PLACEHOLDER}`**: continue with the steps below.
 
-3. If the placeholder still exists, **stop all other exploration immediately** and ask the user for their Metabase instance URL. Do not search for tool schemas, read other files, or do anything else first.
+3. **Stop all other exploration immediately** and ask the user for their Metabase instance URL. Do not search for tool schemas, read other files, or do anything else first.
 
    **Never mention `{METABASE_INSTANCE_PLACEHOLDER}` or any placeholder to the user**. Simply say the MCP needs their Metabase URL to connect. Ask only for the URL and wait for their response.
 
