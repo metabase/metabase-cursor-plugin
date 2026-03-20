@@ -1,10 +1,7 @@
 {
   "mcpServers": {
     "metabase": {
-      "url": "{METABASE_INSTANCE_PLACEHOLDER}/api/mcp",
-      "auth": {
-        "type": "oauth"
-      }
+      "url": "{METABASE_INSTANCE_PLACEHOLDER}/api/mcp"
     }
   }
 }

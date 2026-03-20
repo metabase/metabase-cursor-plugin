@@ -11,23 +11,23 @@ Current scope: **skills + MCP config only** (no rules, agents, commands, or hook
 
 ## Configure your Metabase instance
 
-1. Open `plugins/metabase/mcp.json`.
-2. Replace `{METABASE_INSTANCE_PLACEHOLDER}` with your Metabase base URL (no trailing slash), for example:
-   - Local development: `http://localhost:3000`
-   - Metabase Cloud: `https://yourcompany.metabaseapp.com`
-   - Self-hosted: `https://metabase.yourcompany.com`
-3. Ensure your instance supports Cursor’s built-in Metabase MCP server (requires Metabase v1.60+). The `setup-metabase-mcp` skill includes a version check.
-4. Reload Cursor (Command Palette -> `Reload Window`).
+After installing the plugin, just ask the AI to set up Metabase:
+
+> "Set up my Metabase MCP"
+
+The `setup-metabase-mcp` skill will guide you through the rest — it will ask for your instance URL, verify the version, and update the config for you.
 
 ## How to test locally
 
-Symlink the `plugins/metabase` folder into your local Cursor plugins directory:
+Copy the `plugins/metabase` folder into your local Cursor plugins directory:
 
 ```sh
-ln -s ./plugins/metabase ~/.cursor/plugins/local/metabase
+cp -R /path/to/metabase-cursor-plugin/plugins/metabase ~/.cursor/plugins/local/metabase
 ```
 
-Then configure `plugins/metabase/mcp.json` as described above and reload Cursor.
+> **Note:** Symlinks do not work — Cursor does not resolve them when loading local plugins. Use `cp -R` instead.
+
+Then configure `~/.cursor/plugins/local/metabase/mcp.json` as described above and reload Cursor.
 
 ## Development / validation
 
