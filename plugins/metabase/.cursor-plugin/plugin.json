@@ -2,7 +2,7 @@
   "name": "metabase",
   "displayName": "Metabase",
   "version": "0.1.0",
-  "description": "Connect Cursor to Metabase via the built-in MCP server.",
+  "description": "Connect Cursor to Metabase via MCP.",
   "author": {
     "name": "Metabase",
     "email": "support@metabase.com"

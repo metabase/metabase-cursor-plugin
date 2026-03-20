@@ -17,6 +17,14 @@ Two starter plugins are included:
 
 To add more plugins, see `docs/add-a-plugin.md`.
 
+## How to test
+
+Symlink the `plugins/metabase` folder to your local Cursor plugins directory, e.g.:
+
+```sh
+ln -s ./plugins/metabase ~/.cursor/plugins/local/metabase
+```
+
 ## Single plugin vs multi-plugin
 
 This template defaults to **multi-plugin** (multiple plugins in one repo).
@@ -32,3 +40,7 @@ For a **single plugin**, move your plugin folder contents to the repository root
 - Logos are committed and referenced with relative paths.
 - `node scripts/validate-template.mjs` passes.
 - Repository link is ready for submission to the Cursor team (Slack or `kniparko@anysphere.com`).
+
+## Attribution
+
+The skill files are adapted from the [Datadog MCP Setup](https://github.com/datadog-labs/cursor-plugin/blob/main/skills/datadog-mcp-setup/SKILL.md)
