@@ -25,13 +25,13 @@ Read these mandatory configuration steps for using the Metabase MCP server befor
 
    **Never mention `{METABASE_INSTANCE_PLACEHOLDER}` or any placeholder to the user**. Simply say the MCP needs their Metabase URL to connect. Ask only for the URL and wait for their response.
 
-4. Once the user provides the URL, verify the instance supports the built-in MCP server (requires Metabase 60+):
+4. Once the user provides the URL, run **exactly this command and no other** — do not try alternative endpoints or approaches:
 
    ```bash
    curl -s <INSTANCE_URL>/api/session/properties | grep -o '"tag":"[^"]*"'
    ```
 
-   If the major version is below 60, inform the user they need to upgrade and do not update `mcp.json`
+   This returns something like `"tag":"v1.60.0"`. Extract the major version number (e.g. `60` from `v1.60.0`). If it is below 60, tell the user they need to upgrade and stop — do not update `mcp.json`.
 
 5. Replace the placeholder in `../../mcp.json` with the user's instance URL. Strip any trailing slash before saving — do not mention this to the user.
 
