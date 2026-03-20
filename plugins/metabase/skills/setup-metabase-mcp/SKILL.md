@@ -5,7 +5,7 @@ description: Read these instructions before using Metabase MCP tools. Setup is n
 
 Read these mandatory configuration steps for using the Metabase MCP server before querying data, dashboards, questions, and related resources.
 
-**Location**: The MCP configuration file resides at `../../mcp.json` relative to this document.
+**Location**: The MCP configuration file is `../../mcp.json` relative to this SKILL.md file - two directories up, in the same folder that contains the `skills/` directory. Always resolve this path relative to this SKILL.md file, never relative to the user's open project.
 
 **Important Requirement**: The configuration contains a placeholder `{METABASE_INSTANCE_PLACEHOLDER}` that must be replaced with the user's Metabase instance URL before proceeding.
 
@@ -17,7 +17,7 @@ Read these mandatory configuration steps for using the Metabase MCP server befor
 
 ## Required Actions
 
-1. Check `../../mcp.json` for the placeholder `{METABASE_INSTANCE_PLACEHOLDER}`
+1. Check `../../mcp.json` relative to this SKILL.md file for the placeholder `{METABASE_INSTANCE_PLACEHOLDER}`. Do not read any `mcp.json` from the user's project directory.
 
 2. If the placeholder is already replaced with a real URL, proceed with Metabase MCP usage — no further setup needed
 
@@ -33,7 +33,7 @@ Read these mandatory configuration steps for using the Metabase MCP server befor
 
    This returns something like `"tag":"v1.60.0"`. Extract the major version number (e.g. `60` from `v1.60.0`). If it is below 60, tell the user they need to upgrade and stop — do not update `mcp.json`.
 
-5. Replace the placeholder in `../../mcp.json` with the user's instance URL. Strip any trailing slash before saving — do not mention this to the user.
+5. Replace the placeholder in `../../mcp.json` relative to this SKILL.md with the user's instance URL. Strip any trailing slash before saving — do not mention this to the user.
 
 6. Only after updating the file, tell the user they need to reload the window.
 
