@@ -1,46 +1,42 @@
-# Cursor plugin template
+# Metabase Cursor Plugin
 
-Build and publish Cursor Marketplace plugins from a single repo.
+Connect Cursor to your Metabase instance via MCP.
 
-Two starter plugins are included:
+## What’s included
 
-- **starter-simple**: rules and skills only
-- **starter-advanced**: rules, skills, agents, commands, hooks, MCP, and scripts
+- Skill: `setup-metabase-mcp` (`plugins/metabase/skills/setup-metabase-mcp/SKILL.md`)
+- MCP server config: `plugins/metabase/mcp.json`
 
-## Getting started
+Current scope: **skills + MCP config only** (no rules, agents, commands, or hooks yet).
 
-[Use this template](https://github.com/cursor/plugin-template/generate) to create a new repository, then customize:
+## Configure your Metabase instance
 
-1. `.cursor-plugin/marketplace.json`: set marketplace `name`, `owner`, and `metadata`.
-2. `plugins/*/.cursor-plugin/plugin.json`: set `name` (lowercase kebab-case), `displayName`, `author`, `description`, `keywords`, `license`, and `version`.
-3. Replace placeholder rules, skills, agents, commands, hooks, scripts, and logos.
+1. Open `plugins/metabase/mcp.json`.
+2. Replace `{METABASE_INSTANCE_PLACEHOLDER}` with your Metabase base URL (no trailing slash), for example:
+   - Local development: `http://localhost:3000`
+   - Metabase Cloud: `https://yourcompany.metabaseapp.com`
+   - Self-hosted: `https://metabase.yourcompany.com`
+3. Ensure your instance supports Cursor’s built-in Metabase MCP server (requires Metabase v1.60+). The `setup-metabase-mcp` skill includes a version check.
+4. Reload Cursor (Command Palette -> `Reload Window`).
 
-To add more plugins, see `docs/add-a-plugin.md`.
+## How to test locally
 
-## How to test
-
-Symlink the `plugins/metabase` folder to your local Cursor plugins directory, e.g.:
+Symlink the `plugins/metabase` folder into your local Cursor plugins directory:
 
 ```sh
 ln -s ./plugins/metabase ~/.cursor/plugins/local/metabase
 ```
 
-## Single plugin vs multi-plugin
+Then configure `plugins/metabase/mcp.json` as described above and reload Cursor.
 
-This template defaults to **multi-plugin** (multiple plugins in one repo).
+## Development / validation
 
-For a **single plugin**, move your plugin folder contents to the repository root, keep one `.cursor-plugin/plugin.json`, and remove `.cursor-plugin/marketplace.json`.
+If you’re iterating on this repo, you can run:
 
-## Submission checklist
-
-- Each plugin has a valid `.cursor-plugin/plugin.json`.
-- Plugin names are unique, lowercase, and kebab-case.
-- `.cursor-plugin/marketplace.json` entries map to real plugin folders.
-- All frontmatter metadata is present in rule, skill, agent, and command files.
-- Logos are committed and referenced with relative paths.
-- `node scripts/validate-template.mjs` passes.
-- Repository link is ready for submission to the Cursor team (Slack or `kniparko@anysphere.com`).
+```sh
+node scripts/validate-template.mjs
+```
 
 ## Attribution
 
-The skill files are adapted from the [Datadog MCP Setup](https://github.com/datadog-labs/cursor-plugin/blob/main/skills/datadog-mcp-setup/SKILL.md)
+The `setup-metabase-mcp` skill is adapted from the [Datadog MCP Setup](https://github.com/datadog-labs/cursor-plugin/blob/main/skills/datadog-mcp-setup/SKILL.md).
