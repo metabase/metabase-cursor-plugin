@@ -2,7 +2,7 @@
   "name": "metabase",
   "displayName": "Metabase",
   "version": "0.1.0",
-  "description": "Connect Cursor to Metabase via MCP.",
+  "description": "Query your Metabase data. Search tables and metrics, run queries, and explore field values via MCP.",
   "author": {
     "name": "Metabase",
     "email": "support@metabase.com"
