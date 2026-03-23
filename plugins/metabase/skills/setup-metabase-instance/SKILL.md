@@ -100,26 +100,31 @@ cd ./metabase && \
 echo $! > metabase.pid
 ```
 
-Tell the user:
+Tell the user: "Metabase is starting in the background. I'll check when it's ready..."
 
-- "Metabase is starting in the background. First-time startup takes 1-2 minutes."
-- "Access it at: http://localhost:$PORT"
+Also mention:
+
 - "View logs: `tail -f ./metabase/metabase.log`"
 - "The process ID is saved in `./metabase/metabase.pid`"
 
-### A5. Verify startup
+### A5. Wait for Metabase to be ready
 
-Wait a few seconds, then check if the process is running:
+Poll the health endpoint every 5 seconds until it returns `{"status":"ok"}`:
+
+```bash
+curl -s http://localhost:$PORT/api/health
+```
+
+Keep polling until the response is `{"status":"ok"}`. Metabase usually starts within 30-60 seconds.
+
+If the health check keeps failing after 2 minutes, check if the process is still running:
 
 ```bash
 ps -p $(cat ./metabase/metabase.pid 2>/dev/null) > /dev/null 2>&1 && echo "Running" || echo "Not running"
-```
-
-If not running, check the logs for errors:
-
-```bash
 tail -50 ./metabase/metabase.log
 ```
+
+Once healthy, tell the user: "Metabase is ready at `http://localhost:$PORT`"
 
 ---
 
@@ -172,7 +177,25 @@ To remove an existing container:
 docker rm -f metabase-local 2>/dev/null
 ```
 
-### B5. Start Metabase container
+### B5. Get the latest Metabase version
+
+The `latest` tag on Docker Hub is often outdated. Get the actual latest version from GitHub:
+
+```bash
+curl -s https://api.github.com/repos/metabase/metabase/releases/latest | grep '"tag_name"' | head -1
+```
+
+This returns something like `"tag_name": "v0.52.5"`. Extract the version (e.g., `v0.52.5`).
+
+Verify the Docker image exists:
+
+```bash
+docker manifest inspect metabase/metabase:$VERSION 2>&1 | head -5
+```
+
+If it doesn't exist, fall back to `latest`.
+
+### B6. Start Metabase container
 
 ```bash
 docker run -d \
@@ -183,43 +206,47 @@ docker run -d \
   -e MB_JETTY_HOST=0.0.0.0 \
   -e MB_ENABLE_EMBEDDING_SDK=true \
   -e MB_ENABLE_EMBEDDING_SIMPLE=true \
-  metabase/metabase:latest
+  metabase/metabase:$VERSION
 ```
 
-Tell the user:
+Tell the user: "Metabase is starting via Docker. I'll check when it's ready..."
 
-- "Metabase is starting via Docker. First-time startup takes 1-2 minutes."
-- "Access it at: http://localhost:$PORT"
-- "View logs: `docker logs -f metabase-local`"
+### B7. Wait for Metabase to be ready
 
-### B6. Verify startup
+Poll the health endpoint every 5 seconds until it returns `{"status":"ok"}`:
+
+```bash
+curl -s http://localhost:$PORT/api/health
+```
+
+Keep polling until the response is `{"status":"ok"}`. Metabase usually starts within 30-60 seconds.
+
+If the health check keeps failing after 2 minutes, check the container status and logs:
 
 ```bash
 docker ps --filter "name=metabase-local" --format "{{.Status}}"
-```
-
-If not running, check logs:
-
-```bash
 docker logs metabase-local 2>&1 | tail -50
 ```
+
+Once healthy, tell the user:
+
+- "Metabase is ready at `http://localhost:$PORT`"
+- "View logs: `docker logs -f metabase-local`"
 
 ---
 
 ## Next Steps: MCP Setup
 
-After Metabase is running, ask the user:
+Once the health check passes and Metabase is ready, ask the user:
 
-1. "Can you confirm Metabase is accessible at `http://localhost:$PORT`?"
+"Would you like to set up the Metabase MCP so you can query your data directly from the IDE?"
 
-2. Once they confirm, ask: "Would you like to set up the Metabase MCP so you can query your data directly from the IDE?"
+- If they agree, invoke the `setup-metabase-mcp` skill. The MCP setup will:
+  - Configure the MCP server with the local instance URL (`http://localhost:$PORT`)
+  - Guide them through authentication
+  - Enable querying tables, metrics, and dashboards from the IDE
 
-3. If they agree, invoke the `setup-metabase-mcp` skill. The MCP setup will:
-   - Configure the MCP server with the local instance URL (`http://localhost:$PORT`)
-   - Guide them through authentication
-   - Enable querying tables, metrics, and dashboards from the IDE
-
-4. If they decline, let them know they can set up the MCP later by asking for "Metabase MCP setup".
+- If they decline, let them know they can set up the MCP later by asking for "Metabase MCP setup".
 
 ---
 
