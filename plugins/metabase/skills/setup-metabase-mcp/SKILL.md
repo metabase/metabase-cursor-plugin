@@ -25,7 +25,11 @@ Read these mandatory configuration steps for using the Metabase MCP server befor
 
 3. **Stop all other exploration immediately** and ask the user for their Metabase instance URL. Do not search for tool schemas, read other files, or do anything else first.
 
-   **Never mention `{METABASE_INSTANCE_PLACEHOLDER}` or any placeholder to the user**. Simply say the MCP needs their Metabase URL to connect. Ask only for the URL and wait for their response.
+   **Never mention `{METABASE_INSTANCE_PLACEHOLDER}` or any placeholder to the user**. Simply say the MCP needs their Metabase URL to connect.
+
+   Ask the user: "Do you have a Metabase instance URL, or would you like to set up a local instance?"
+   - **If they provide a URL**: Continue with step 4.
+   - **If they don't have one and want to set up a local instance**: Invoke the `setup-metabase-instance` skill. Once the local instance is running, return here and use `http://localhost:3000` (or whatever port was chosen) as the instance URL.
 
 4. Once the user provides the URL, run **exactly this command and no other** — do not try alternative endpoints or approaches:
 

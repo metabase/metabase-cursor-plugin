@@ -206,6 +206,23 @@ docker logs metabase-local 2>&1 | tail -50
 
 ---
 
+## Next Steps: MCP Setup
+
+After Metabase is running, ask the user:
+
+1. "Can you confirm Metabase is accessible at `http://localhost:$PORT`?"
+
+2. Once they confirm, ask: "Would you like to set up the Metabase MCP so you can query your data directly from the IDE?"
+
+3. If they agree, invoke the `setup-metabase-mcp` skill. The MCP setup will:
+   - Configure the MCP server with the local instance URL (`http://localhost:$PORT`)
+   - Guide them through authentication
+   - Enable querying tables, metrics, and dashboards from the IDE
+
+4. If they decline, let them know they can set up the MCP later by asking for "Metabase MCP setup".
+
+---
+
 ## Stopping Metabase
 
 When the user asks to stop Metabase, determine which method was used.
