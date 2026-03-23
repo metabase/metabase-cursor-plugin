@@ -41,6 +41,8 @@ Read these mandatory configuration steps for using the Metabase MCP server befor
 
    Use the user's current OS to show the right shortcut: open the Command Palette (⌘⇧P on Mac or Ctrl+Shift+P on Windows/Linux) and run **"Reload Window"**. Ask them to confirm once reloaded before continuing.
 
-7. Proceed with using the Metabase MCP
+7. Once the user confirms the window has been reloaded, call the `mcp_auth` tool for the Metabase MCP server to authenticate. This will prompt the user to log in to their Metabase instance.
 
-**Important**: Do not attempt to access MCP tools or schemas until the instance URL is properly configured and the window has been reloaded. Never reveal `{METABASE_INSTANCE_PLACEHOLDER}` or any internal placeholder names to the user.
+8. Proceed with using the Metabase MCP
+
+**Important**: Do not attempt to access MCP tools or schemas until the authentication is complete. Never reveal `{METABASE_INSTANCE_PLACEHOLDER}` or any internal placeholder names to the user.
