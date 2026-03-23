@@ -1,0 +1,290 @@
+---
+name: setup-metabase-instance
+description: Set up and run a local Metabase instance. Downloads the JAR (if Java 21+ is available) or runs via Docker. Also handles stopping running instances.
+---
+
+# Set Up a Local Metabase Instance
+
+This skill helps users run a local Metabase instance for development, testing, or exploration.
+
+## Prerequisites Check
+
+Run these checks in order. Stop at the first successful path.
+
+### 1. Check for Java 21+
+
+```bash
+java -version 2>&1 | head -1
+```
+
+Parse the version number. Java 21+ is required. Examples:
+
+- `openjdk version "21.0.1"` → version 21 ✓
+- `java version "17.0.8"` → version 17 ✗
+
+**If Java 21+ is available**: Use the JAR method (Section A).
+
+**If Java is not 21+ or not installed**: Check for Docker.
+
+### 2. Check for Docker
+
+```bash
+docker --version 2>&1
+```
+
+**If Docker is available**: Use the Docker method (Section B).
+
+**If neither Java 21+ nor Docker is available**: Direct the user to install Docker:
+
+- macOS/Windows: [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- Linux: [Docker Engine](https://docs.docker.com/engine/install/)
+
+Tell them to re-run this skill after installing Docker.
+
+---
+
+## Section A: JAR Method (Java 21+)
+
+### A1. Check for existing Metabase directory
+
+```bash
+ls -la ./metabase 2>/dev/null
+```
+
+If `./metabase` exists and contains files, ask the user:
+
+- "A `./metabase` directory already exists. Should I use it (preserving existing data) or remove it and start fresh?"
+
+If the user wants to start fresh:
+
+```bash
+rm -rf ./metabase
+```
+
+### A2. Create directory and download JAR
+
+```bash
+mkdir -p ./metabase
+```
+
+Get the latest OSS release URL and download:
+
+```bash
+curl -sL -o ./metabase/metabase.jar https://downloads.metabase.com/latest/metabase.jar
+```
+
+Tell the user this may take a minute (the JAR is ~400MB).
+
+### A3. Check if port 3000 is in use
+
+```bash
+lsof -i :3000 2>/dev/null | grep LISTEN
+```
+
+If the port is in use, ask the user:
+
+- "Port 3000 is already in use. Would you like to use a different port?"
+- Suggest port 3001, 3002, etc.
+
+Store the chosen port as `$PORT` (default: 3000).
+
+### A4. Start Metabase in the background
+
+```bash
+cd ./metabase && \
+  MB_DB_FILE=./metabase.db \
+  MB_JETTY_PORT=$PORT \
+  MB_ENABLE_EMBEDDING_SDK=true \
+  MB_ENABLE_EMBEDDING_SIMPLE=true \
+  nohup java -jar metabase.jar > metabase.log 2>&1 &
+echo $! > metabase.pid
+```
+
+Tell the user:
+
+- "Metabase is starting in the background. First-time startup takes 1-2 minutes."
+- "Access it at: http://localhost:$PORT"
+- "View logs: `tail -f ./metabase/metabase.log`"
+- "The process ID is saved in `./metabase/metabase.pid`"
+
+### A5. Verify startup
+
+Wait a few seconds, then check if the process is running:
+
+```bash
+ps -p $(cat ./metabase/metabase.pid 2>/dev/null) > /dev/null 2>&1 && echo "Running" || echo "Not running"
+```
+
+If not running, check the logs for errors:
+
+```bash
+tail -50 ./metabase/metabase.log
+```
+
+---
+
+## Section B: Docker Method
+
+### B1. Check for existing Metabase directory
+
+```bash
+ls -la ./metabase 2>/dev/null
+```
+
+If `./metabase` exists and contains files, ask the user:
+
+- "A `./metabase` directory already exists. Should I use it (preserving existing data) or remove it and start fresh?"
+
+If the user wants to start fresh:
+
+```bash
+rm -rf ./metabase
+```
+
+### B2. Create directory for data persistence
+
+```bash
+mkdir -p ./metabase
+```
+
+### B3. Check if port 3000 is in use
+
+```bash
+lsof -i :3000 2>/dev/null | grep LISTEN
+```
+
+If the port is in use, ask the user for an alternative port. Store as `$PORT` (default: 3000).
+
+### B4. Check for existing Metabase container
+
+```bash
+docker ps -a --filter "name=metabase-local" --format "{{.Names}} {{.Status}}"
+```
+
+If a container named `metabase-local` exists:
+
+- If running: Ask if they want to stop it and start fresh, or keep using it
+- If stopped: Ask if they want to remove it and start fresh, or restart it
+
+To remove an existing container:
+
+```bash
+docker rm -f metabase-local 2>/dev/null
+```
+
+### B5. Start Metabase container
+
+```bash
+docker run -d \
+  --name metabase-local \
+  -p $PORT:3000 \
+  -v "$(pwd)/metabase:/metabase.db" \
+  -e MB_DB_FILE=/metabase.db/metabase.db \
+  -e MB_JETTY_HOST=0.0.0.0 \
+  -e MB_ENABLE_EMBEDDING_SDK=true \
+  -e MB_ENABLE_EMBEDDING_SIMPLE=true \
+  metabase/metabase:latest
+```
+
+Tell the user:
+
+- "Metabase is starting via Docker. First-time startup takes 1-2 minutes."
+- "Access it at: http://localhost:$PORT"
+- "View logs: `docker logs -f metabase-local`"
+
+### B6. Verify startup
+
+```bash
+docker ps --filter "name=metabase-local" --format "{{.Status}}"
+```
+
+If not running, check logs:
+
+```bash
+docker logs metabase-local 2>&1 | tail -50
+```
+
+---
+
+## Stopping Metabase
+
+When the user asks to stop Metabase, determine which method was used.
+
+### Stop JAR-based Metabase
+
+```bash
+if [ -f ./metabase/metabase.pid ]; then
+  kill $(cat ./metabase/metabase.pid) 2>/dev/null && rm ./metabase/metabase.pid && echo "Metabase stopped"
+else
+  # Fallback: find by process
+  pkill -f "metabase.jar" && echo "Metabase stopped"
+fi
+```
+
+### Stop Docker-based Metabase
+
+```bash
+docker stop metabase-local && echo "Metabase stopped"
+```
+
+To also remove the container (but keep data):
+
+```bash
+docker rm metabase-local
+```
+
+---
+
+## Checking Metabase Status
+
+### Check JAR status
+
+```bash
+if [ -f ./metabase/metabase.pid ] && ps -p $(cat ./metabase/metabase.pid) > /dev/null 2>&1; then
+  echo "Metabase (JAR) is running with PID $(cat ./metabase/metabase.pid)"
+else
+  echo "Metabase (JAR) is not running"
+fi
+```
+
+### Check Docker status
+
+```bash
+docker ps --filter "name=metabase-local" --format "{{.Names}}: {{.Status}}"
+```
+
+---
+
+## Environment Variables Reference
+
+These can be customized when starting Metabase:
+
+| Variable                     | Default         | Description                                  |
+| ---------------------------- | --------------- | -------------------------------------------- |
+| `MB_DB_FILE`                 | `./metabase.db` | H2 database file location                    |
+| `MB_JETTY_PORT`              | `3000`          | Port Metabase listens on                     |
+| `MB_JETTY_HOST`              | `localhost`     | Network interface (use `0.0.0.0` for Docker) |
+| `MB_ENABLE_EMBEDDING_SDK`    | `true`          | Enable the Embedding SDK                     |
+| `MB_ENABLE_EMBEDDING_SIMPLE` | `true`          | Enable static embedding                      |
+
+For all options, see the [Metabase Environment Variables documentation](https://www.metabase.com/docs/latest/configuring-metabase/environment-variables).
+
+---
+
+## Troubleshooting
+
+### "Address already in use"
+
+Another process is using the port. Either stop that process or choose a different port.
+
+### "Java version too old"
+
+Install Java 21+ or use the Docker method instead.
+
+### Metabase starts but is slow
+
+First startup takes longer as it initializes the database. Subsequent starts are faster.
+
+### "Cannot connect to Docker daemon"
+
+Make sure Docker Desktop is running (macOS/Windows) or the Docker service is started (Linux).
