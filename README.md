@@ -1,6 +1,8 @@
 # Metabase Cursor Plugin
 
-The official Cursor MCP Plugin for [Metabase ](https://www.metabase.com/). Developed and maintained by the Metabase Team.
+<img src="./docs/logo.png" alt="Metabase" width="200"></img>
+
+The official Cursor MCP Plugin for [Metabase](https://www.metabase.com/). Developed and maintained by the Metabase Team.
 
 ## What’s included
 
