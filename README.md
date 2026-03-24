@@ -1,34 +1,48 @@
-# Cursor plugin template
+# Metabase Cursor Plugin
 
-Build and publish Cursor Marketplace plugins from a single repo.
+<img src="./docs/demo.webp" alt="Cursor Plugin Demo" width="600"></img>
 
-Two starter plugins are included:
+The official Cursor MCP Plugin for [Metabase](https://www.metabase.com/). Developed and maintained by the Metabase Team.
 
-- **starter-simple**: rules and skills only
-- **starter-advanced**: rules, skills, agents, commands, hooks, MCP, and scripts
+## What’s included
 
-## Getting started
+- Skill: `setup-metabase-mcp` (`plugins/metabase/skills/setup-metabase-mcp/SKILL.md`)
+- MCP server config: `plugins/metabase/mcp.json`
 
-[Use this template](https://github.com/cursor/plugin-template/generate) to create a new repository, then customize:
+Current scope: **skills + MCP config only** (no rules, agents, commands, or hooks yet).
 
-1. `.cursor-plugin/marketplace.json`: set marketplace `name`, `owner`, and `metadata`.
-2. `plugins/*/.cursor-plugin/plugin.json`: set `name` (lowercase kebab-case), `displayName`, `author`, `description`, `keywords`, `license`, and `version`.
-3. Replace placeholder rules, skills, agents, commands, hooks, scripts, and logos.
+## Connecting to your Metabase
 
-To add more plugins, see `docs/add-a-plugin.md`.
+After installing the plugin, just ask the AI to set up your Metabase MCP server:
 
-## Single plugin vs multi-plugin
+Just type: "Set up my Metabase MCP"
 
-This template defaults to **multi-plugin** (multiple plugins in one repo).
+The `setup-metabase-mcp` skill will guide you through the rest. The AI will:
 
-For a **single plugin**, move your plugin folder contents to the repository root, keep one `.cursor-plugin/plugin.json`, and remove `.cursor-plugin/marketplace.json`.
+- Ask for your Metabase URL.
+- Verify that your Metabase is version 60 or higher.
+- Update your plugin's config with your Metabase's URL.
 
-## Submission checklist
+You'll need a valid login to your Metabase.
 
-- Each plugin has a valid `.cursor-plugin/plugin.json`.
-- Plugin names are unique, lowercase, and kebab-case.
-- `.cursor-plugin/marketplace.json` entries map to real plugin folders.
-- All frontmatter metadata is present in rule, skill, agent, and command files.
-- Logos are committed and referenced with relative paths.
-- `node scripts/validate-template.mjs` passes.
-- Repository link is ready for submission to the Cursor team (Slack or `kniparko@anysphere.com`).
+## How to test the Metabase plugin locally
+
+1. Clone this repo.
+
+2. Copy the `plugins/metabase` directory to you local Cursor plugins directory.
+
+```sh
+cp --recursive /path/to/metabase-cursor-plugin/plugins/metabase ~/.cursor/plugins/local/metabase
+```
+
+Note the `--recursive` flag; you need to copy directory and its sub-directories because Cursor won't resolve symlinks when loading local plugins.
+
+3. With the plugin installed, ask the AI to "Set up my Metabase MCP".
+
+The `setup-metabase-mcp` skill will guide you through configuring your `mcp.json` at ~/.cursor/plugins/local/metabase/mcp.json`.
+
+4. Once your `mcp.json` is configured, reload Cursor, and you should be good to go.
+
+## Attribution
+
+The `setup-metabase-mcp` skill is adapted from the [Datadog MCP Setup](https://github.com/datadog-labs/cursor-plugin/blob/main/skills/datadog-mcp-setup/SKILL.md).

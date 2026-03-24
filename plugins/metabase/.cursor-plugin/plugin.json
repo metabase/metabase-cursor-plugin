@@ -1,0 +1,13 @@
+{
+  "name": "metabase",
+  "displayName": "Metabase",
+  "version": "0.1.0",
+  "description": "Query your semantic layer in Metabase. Search questions, metrics, and tables, run queries, and explore field values via MCP.",
+  "author": {
+    "name": "Metabase",
+    "email": "support@metabase.com"
+  },
+  "license": "MIT",
+  "keywords": ["metabase", "mcp", "analytics", "bi", "data"],
+  "logo": "assets/logo.svg"
+}
