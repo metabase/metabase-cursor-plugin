@@ -11,7 +11,7 @@ Current scope: **skills + MCP config only** (no rules, agents, commands, or hook
 
 ## Connecting to your Metabase
 
-After installing the plugin, just ask the AI to set up Metabase:
+After installing the plugin, just ask the AI to set up your Metabase MCP server:
 
 > "Set up my Metabase MCP"
 
