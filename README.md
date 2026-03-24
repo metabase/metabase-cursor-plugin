@@ -15,7 +15,13 @@ After installing the plugin, just ask the AI to set up your Metabase MCP server:
 
 > "Set up my Metabase MCP"
 
-The `setup-metabase-mcp` skill will guide you through the rest — it will ask for your instance URL, verify the version, and update the config for you.
+The `setup-metabase-mcp` skill will guide you through the rest. The AI will:
+
+ -  Ask for your Metabase URL.
+ -  Verify that your Metabase is version 60 or higher.
+ -  Update your plugin's config with your Metabase's URL.
+
+You'll need a valid login to your Metabase.
 
 ## How to test locally
 
