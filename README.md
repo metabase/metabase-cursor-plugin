@@ -13,7 +13,7 @@ Current scope: **skills + MCP config only** (no rules, agents, commands, or hook
 
 After installing the plugin, just ask the AI to set up your Metabase MCP server:
 
-> "Set up my Metabase MCP"
+Just type: "Set up my Metabase MCP"
 
 The `setup-metabase-mcp` skill will guide you through the rest. The AI will:
 
