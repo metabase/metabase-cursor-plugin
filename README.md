@@ -1,6 +1,6 @@
 # Metabase Cursor Plugin
 
-Connect Cursor to your Metabase instance via MCP.
+The official Cursor MCP Plugin for [Metabase ](https://www.metabase.com/). Developed and maintained by the Metabase Team.
 
 ## What’s included
 
