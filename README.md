@@ -1,6 +1,6 @@
 # Metabase Cursor Plugin
 
-<img src="./docs/logo.png" alt="Metabase" width="200"></img>
+<img src="./docs/demo.webp" alt="Cursor Plugin Demo" width="600"></img>
 
 The official Cursor MCP Plugin for [Metabase](https://www.metabase.com/). Developed and maintained by the Metabase Team.
 
