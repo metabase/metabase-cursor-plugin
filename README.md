@@ -9,7 +9,7 @@ The official Cursor MCP Plugin for [Metabase ](https://www.metabase.com/). Devel
 
 Current scope: **skills + MCP config only** (no rules, agents, commands, or hooks yet).
 
-## Configure your Metabase instance
+## Connecting to your Metabase
 
 After installing the plugin, just ask the AI to set up Metabase:
 
