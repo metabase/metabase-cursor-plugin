@@ -2,7 +2,7 @@
   "name": "metabase",
   "displayName": "Metabase",
   "version": "0.1.0",
-  "description": "Query your Metabase data. Search tables and metrics, run queries, and explore field values via MCP.",
+  "description": "Query your semantic layer in Metabase. Search questions, metrics, and tables, run queries, and explore field values via MCP.",
   "author": {
     "name": "Metabase",
     "email": "support@metabase.com"
