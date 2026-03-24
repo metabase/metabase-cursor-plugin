@@ -17,31 +17,29 @@ After installing the plugin, just ask the AI to set up your Metabase MCP server:
 
 The `setup-metabase-mcp` skill will guide you through the rest. The AI will:
 
- -  Ask for your Metabase URL.
- -  Verify that your Metabase is version 60 or higher.
- -  Update your plugin's config with your Metabase's URL.
+- Ask for your Metabase URL.
+- Verify that your Metabase is version 60 or higher.
+- Update your plugin's config with your Metabase's URL.
 
 You'll need a valid login to your Metabase.
 
-## How to test locally
+## How to test the Metabase plugin locally
 
-Copy the `plugins/metabase` folder into your local Cursor plugins directory:
+1. Clone this repo.
 
-```sh
-cp -R /path/to/metabase-cursor-plugin/plugins/metabase ~/.cursor/plugins/local/metabase
-```
-
-> **Note:** Symlinks do not work — Cursor does not resolve them when loading local plugins. Use `cp -R` instead.
-
-Then configure `~/.cursor/plugins/local/metabase/mcp.json` as described above and reload Cursor.
-
-## Development / validation
-
-If you’re iterating on this repo, you can run:
+2. Copy the `plugins/metabase` directory to you local Cursor plugins directory.
 
 ```sh
-node scripts/validate-template.mjs
+cp --recursive /path/to/metabase-cursor-plugin/plugins/metabase ~/.cursor/plugins/local/metabase
 ```
+
+Note the `--recursive` flag; you need to copy directory and its sub-directories because Cursor won't resolve symlinks when loading local plugins.
+
+3. With the plugin installed, ask the AI to "Set up my Metabase MCP".
+
+The `setup-metabase-mcp` skill will guide you through configuring your `mcp.json` at ~/.cursor/plugins/local/metabase/mcp.json`.
+
+4. Once your `mcp.json` is configured, reload Cursor, and you should be good to go.
 
 ## Attribution
 
