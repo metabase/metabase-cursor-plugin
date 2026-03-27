@@ -7,6 +7,10 @@ description: Set up and run a local Metabase instance. Downloads the JAR (if Jav
 
 This skill helps users run a local Metabase instance for development, testing, or exploration.
 
+## Important: Network Access Required
+
+This skill requires network access. All `curl`, `java`, and `docker` commands must be run outside the Cursor sandbox. Request full network access or run outside the sandbox before attempting these commands. Do not run them inside the sandbox as they will fail.
+
 ## Prerequisites Check
 
 Run these checks in order. Stop at the first successful path.
@@ -301,11 +305,11 @@ docker ps --filter "name=metabase-local" --format "{{.Names}}: {{.Status}}"
 
 These can be customized when starting Metabase:
 
-| Variable                     | Default         | Description                                  |
-| ---------------------------- | --------------- | -------------------------------------------- |
-| `MB_DB_FILE`                 | `./metabase.db` | H2 database file location                    |
-| `MB_JETTY_PORT`              | `3000`          | Port Metabase listens on                     |
-| `MB_JETTY_HOST`              | `localhost`     | Network interface (use `0.0.0.0` for Docker) |
+| Variable        | Default         | Description                                  |
+| --------------- | --------------- | -------------------------------------------- |
+| `MB_DB_FILE`    | `./metabase.db` | H2 database file location                    |
+| `MB_JETTY_PORT` | `3000`          | Port Metabase listens on                     |
+| `MB_JETTY_HOST` | `localhost`     | Network interface (use `0.0.0.0` for Docker) |
 
 For all options, see the [Metabase Environment Variables documentation](https://www.metabase.com/docs/latest/configuring-metabase/environment-variables).
 
