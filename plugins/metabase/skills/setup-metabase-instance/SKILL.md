@@ -94,8 +94,6 @@ Store the chosen port as `$PORT` (default: 3000).
 cd ./metabase && \
   MB_DB_FILE=./metabase.db \
   MB_JETTY_PORT=$PORT \
-  MB_ENABLE_EMBEDDING_SDK=true \
-  MB_ENABLE_EMBEDDING_SIMPLE=true \
   nohup java -jar metabase.jar > metabase.log 2>&1 &
 echo $! > metabase.pid
 ```
@@ -308,8 +306,6 @@ These can be customized when starting Metabase:
 | `MB_DB_FILE`                 | `./metabase.db` | H2 database file location                    |
 | `MB_JETTY_PORT`              | `3000`          | Port Metabase listens on                     |
 | `MB_JETTY_HOST`              | `localhost`     | Network interface (use `0.0.0.0` for Docker) |
-| `MB_ENABLE_EMBEDDING_SDK`    | `true`          | Enable the Embedding SDK                     |
-| `MB_ENABLE_EMBEDDING_SIMPLE` | `true`          | Enable static embedding                      |
 
 For all options, see the [Metabase Environment Variables documentation](https://www.metabase.com/docs/latest/configuring-metabase/environment-variables).
 
