@@ -17,18 +17,15 @@ Run these checks in order. Stop at the first successful path.
 
 ### 1. Check for Java 21+
 
+Expand PATH first to avoid the macOS stub at `/usr/bin/java`:
+
 ```bash
+export PATH=”/opt/homebrew/opt/openjdk/bin:/opt/homebrew/opt/openjdk@21/bin:/opt/homebrew/bin:/usr/local/opt/openjdk/bin:/usr/local/opt/openjdk@21/bin:/usr/local/bin:$PATH”
 java -version 2>&1 | head -1
 ```
 
-Parse the version number. Java 21+ is required. Examples:
-
-- `openjdk version "21.0.1"` → version 21 ✓
-- `java version "17.0.8"` → version 17 ✗
-
-**If Java 21+ is available**: Use the JAR method (Section A).
-
-**If Java is not 21+ or not installed**: Check for Docker.
+If the output shows Java 21 or higher → use Section A (JAR). Keep this `PATH` export for all subsequent commands.
+If not found or version < 21 → check Docker (step 2).
 
 ### 2. Check for Docker
 
@@ -94,7 +91,10 @@ Store the chosen port as `$PORT` (default: 3000).
 
 ### A4. Start Metabase in the background
 
+Use the same `PATH` as in the Java prerequisite step when the agent uses a fresh shell (prepend the macOS Homebrew line again if unsure). Optionally set `JAVA_CMD=$(command -v java)` after that export so you invoke the same binary you version-checked.
+
 ```bash
+export PATH="/opt/homebrew/opt/openjdk/bin:/opt/homebrew/opt/openjdk@21/bin:/opt/homebrew/bin:/usr/local/opt/openjdk/bin:/usr/local/opt/openjdk@21/bin:/usr/local/bin:$PATH"
 cd ./metabase && \
   MB_DB_FILE=./metabase.db \
   MB_JETTY_PORT=$PORT \
@@ -324,6 +324,10 @@ Another process is using the port. Either stop that process or choose a differen
 ### "Java version too old"
 
 Install Java 21+ or use the Docker method instead.
+
+### "Unable to locate a Java Runtime" on macOS
+
+You are likely hitting `/usr/bin/java` (stub). Prepend Homebrew OpenJDK to `PATH` as in **Check for Java 21+**, or call the real binary explicitly, e.g. `/opt/homebrew/bin/java -version`.
 
 ### Metabase starts but is slow
 
