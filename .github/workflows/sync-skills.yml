@@ -40,7 +40,7 @@ jobs:
           }
 
           check metabase-react-sdk-setup
-          check metabase-embed-dashboard
+          check metabase-react-sdk-docs
 
           # Trim leading space
           changed="${changed# }"
