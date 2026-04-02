@@ -1,5 +1,5 @@
 ---
-name: embed-dashboard
+name: metabase-embed-dashboard
 description: Generates ready-to-use React components that embed Metabase dashboards using the Embedding SDK. Accepts a natural-language description of the dashboards needed, finds or creates them in Metabase, and outputs working component code.
 ---
 
@@ -70,7 +70,7 @@ Read the auth mode from the user's project context:
 - If a JWT auth endpoint exists → JWT auth.
 - If unclear, ask the user: "Are you using API key auth or JWT auth for embedding?"
 
-If auth is not yet set up at all, suggest running the `setup-embedding` skill first.
+If auth is not yet set up at all, suggest running the `metabase-embedding-setup` skill first.
 
 ---
 

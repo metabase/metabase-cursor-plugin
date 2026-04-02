@@ -1,9 +1,9 @@
 ---
-name: setup-embedding
+name: metabase-embedding-setup
 description: One-time setup for Metabase Embedding SDK. Confirms the Metabase instance URL and version, sets up authentication (API key for dev, JWT for production), and installs the SDK.
 ---
 
-Run these steps to prepare a project for Metabase embedded analytics. This covers instance verification, auth mode selection, and SDK installation. Once complete, use the `embed-dashboard` skill to generate dashboard components.
+Run these steps to prepare a project for Metabase embedded analytics. This covers instance verification, auth mode selection, and SDK installation. Once complete, use the `metabase-embed-dashboard` skill to generate dashboard components.
 
 ---
 
@@ -87,4 +87,4 @@ Tell the user setup is complete. Summarize:
 - Auth mode chosen (API key / JWT) and where credentials are stored
 - SDK version installed
 
-Suggest using the `embed-dashboard` skill to start generating dashboard components.
+Suggest using the `metabase-embed-dashboard` skill to start generating dashboard components.
