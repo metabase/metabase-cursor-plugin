@@ -14,6 +14,11 @@
       "name": "metabase",
       "source": "./metabase",
       "description": "Search tables and metrics, run queries, and explore field values"
+    },
+    {
+      "name": "metabase-embedding",
+      "source": "./metabase-embedding",
+      "description": "Embed Metabase dashboards into React apps using the Embedding SDK"
     }
   ]
 }

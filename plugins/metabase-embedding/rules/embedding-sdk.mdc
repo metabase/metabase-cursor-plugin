@@ -1,0 +1,35 @@
+---
+description: Coding standards for files that use the Metabase Embedding SDK (@metabase/embedding-sdk-react).
+alwaysApply: false
+globs: ["**/*.tsx", "**/*.ts", "**/*.jsx", "**/*.js"]
+---
+
+# Metabase Embedding SDK rules
+
+When writing or editing code that uses the Metabase Embedding SDK:
+
+## Imports
+
+- Always import from `@metabase/embedding-sdk-react`. Never import from internal Metabase paths.
+- The SDK package version must match the Metabase instance major version. For example, if the instance is `v1.60.x`, use `@metabase/embedding-sdk-react@0.60.x`.
+
+## Component structure
+
+- Wrap all embedded components in a single `MetabaseProvider` at the top of the component tree (or in a shared layout/provider component). Do not nest multiple `MetabaseProvider` instances.
+- Use `StaticDashboard` for read-only embeds and `InteractiveDashboard` for embeds where users can explore and filter.
+- Pass numeric IDs (e.g. `dashboardId`) as integers, not strings. If the ID comes from a URL param (always a string), `parseInt` it before passing. Note: entity IDs are strings — do not `parseInt` all IDs indiscriminately.
+
+## Authentication
+
+- Never hardcode API keys, JWT secrets, or session tokens in source code. Always read them from environment variables (e.g. `process.env.METABASE_API_KEY`).
+- The auth config prop name and shape passed to `MetabaseProvider` changed in Metabase v57. Do not assume the prop is named `config` or that fields like `authProviderUri` exist — check the versioned `llms.txt` for the instance version being used (`https://www.metabase.com/docs/v0.{MAJOR}/llms.txt`) to confirm the correct prop names before writing auth config code.
+- The JWT auth endpoint must return a signed token in the shape described in the version-specific docs. Do not assume the response shape from training data.
+
+## Environment variables
+
+- Prefix browser-visible URLs with the framework's public env convention (e.g. `NEXT_PUBLIC_` for Next.js, `VITE_` for Vite).
+- Never expose API keys or JWT signing secrets to the browser. Keep them server-side only.
+
+## TypeScript
+
+- Use the types exported by `@metabase/embedding-sdk-react` (e.g. `MetabaseAuthConfig`) rather than writing ad-hoc inline types for config objects.

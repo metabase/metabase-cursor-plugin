@@ -1,0 +1,13 @@
+{
+  "name": "metabase-embedding",
+  "displayName": "Metabase Embedding",
+  "version": "0.1.0",
+  "description": "Embed Metabase dashboards into your React app. Generates Embedding SDK components, wires authentication, and creates dashboards from natural-language prompts.",
+  "author": {
+    "name": "Metabase",
+    "email": "support@metabase.com"
+  },
+  "license": "MIT",
+  "keywords": ["metabase", "embedding", "sdk", "react", "analytics", "bi"],
+  "logo": "assets/logo.svg"
+}
