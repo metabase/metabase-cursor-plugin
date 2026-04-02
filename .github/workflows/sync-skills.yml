@@ -39,7 +39,7 @@ jobs:
             fi
           }
 
-          check metabase-embedding-setup
+          check metabase-react-sdk-setup
           check metabase-embed-dashboard
 
           # Trim leading space
