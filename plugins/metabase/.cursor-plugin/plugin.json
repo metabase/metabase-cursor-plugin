@@ -2,12 +2,21 @@
   "name": "metabase",
   "displayName": "Metabase",
   "version": "0.1.0",
-  "description": "Query and explore Metabase data via MCP, set up local instances, and embed dashboards into React apps using the Embedding SDK.",
+  "description": "Query and explore Metabase data via MCP, spins up instances and embed dashboards.",
   "author": {
     "name": "Metabase",
     "email": "support@metabase.com"
   },
   "license": "MIT",
-  "keywords": ["metabase", "mcp", "analytics", "bi", "data", "embedding", "sdk", "react"],
+  "keywords": [
+    "metabase",
+    "mcp",
+    "analytics",
+    "bi",
+    "data",
+    "embedding",
+    "sdk",
+    "react"
+  ],
   "logo": "assets/logo.svg"
 }

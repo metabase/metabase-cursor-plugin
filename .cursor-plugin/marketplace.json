@@ -13,7 +13,7 @@
     {
       "name": "metabase",
       "source": "./metabase",
-      "description": "Search tables and metrics, run queries, explore field values, set up local instances, and embed dashboards into React apps"
+      "description": "Search tables and metrics, run queries, explore field values, spins up instances and embed dashboards"
     }
   ]
 }
