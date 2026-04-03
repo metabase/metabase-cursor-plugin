@@ -17,7 +17,7 @@ When writing or editing code that uses the Metabase Embedding SDK:
 
 - Wrap all embedded components in a single `MetabaseProvider` at the top of the component tree (or in a shared layout/provider component). Do not nest multiple `MetabaseProvider` instances.
 - Use `StaticDashboard` for read-only embeds and `InteractiveDashboard` for embeds where users can explore and filter.
-- Pass numeric IDs (e.g. `dashboardId`) as integers, not strings. If the ID comes from a URL param (always a string), `parseInt` it before passing. Note: entity IDs are strings — do not `parseInt` all IDs indiscriminately.
+- Pass numeric IDs (e.g. `dashboardId`) as integer literals directly in the component — e.g. `dashboardId={7}`. Dashboard IDs are not secrets; do not wrap them in env vars or helper functions. If the ID comes from a URL param (always a string), `parseInt` it before passing. Note: entity IDs are strings — do not `parseInt` all IDs indiscriminately.
 
 ## Authentication
 
