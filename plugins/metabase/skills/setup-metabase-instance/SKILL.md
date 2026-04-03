@@ -11,31 +11,6 @@ This skill helps users run a local Metabase instance for development, testing, o
 
 This skill requires network access. All `curl`, `java`, and `docker` commands must be run outside the Cursor sandbox. Request full network access or run outside the sandbox before attempting these commands. Do not run them inside the sandbox as they will fail.
 
----
-
-## Step 0 — Determine edition (OSS vs Enterprise)
-
-Ask the user (or infer from context if the intent is already clear):
-
-> "Will you be embedding Metabase dashboards inside a web or mobile app (using the Embedding SDK)?"
-
-- **Yes / embedding**: use **Enterprise Edition (EE)**. Continue to the license key prompt below.
-- **No / data exploration only**: use **Open Source (OSS)**. Skip to Prerequisites Check — no license key needed.
-
-### If embedding: get a license key
-
-Tell the user:
-
-> "Embedding with JWT authentication requires a Metabase Enterprise license. You can start a **14-day free trial** at no cost:
->
-> 👉 **<https://store.metabase.com/checkout>**
->
-> After signing up, copy your license key from the confirmation email or your account dashboard and paste it here."
-
-Wait for the user to paste their license key, then store it as `$MB_LICENSE_KEY`. This will be passed to Metabase at startup.
-
----
-
 ## Prerequisites Check
 
 Run these checks in order. Stop at the first successful path.
@@ -93,16 +68,11 @@ rm -rf ./metabase
 mkdir -p ./metabase
 ```
 
-Download the appropriate edition:
+Get the latest OSS release URL and download:
 
-- **OSS** (data exploration):
-  ```bash
-  curl -sL -o ./metabase/metabase.jar https://downloads.metabase.com/latest/metabase.jar
-  ```
-- **Enterprise** (embedding):
-  ```bash
-  curl -sL -o ./metabase/metabase.jar https://downloads.metabase.com/enterprise/latest/metabase.jar
-  ```
+```bash
+curl -sL -o ./metabase/metabase.jar https://downloads.metabase.com/latest/metabase.jar
+```
 
 Tell the user this may take a minute (the JAR is ~400MB).
 
@@ -123,25 +93,14 @@ Store the chosen port as `$PORT` (default: 3000).
 
 Use the same `PATH` as in the Java prerequisite step when the agent uses a fresh shell (prepend the macOS Homebrew line again if unsure). Optionally set `JAVA_CMD=$(command -v java)` after that export so you invoke the same binary you version-checked.
 
-- **OSS**:
-  ```bash
-  export PATH="/opt/homebrew/opt/openjdk/bin:/opt/homebrew/opt/openjdk@21/bin:/opt/homebrew/bin:/usr/local/opt/openjdk/bin:/usr/local/opt/openjdk@21/bin:/usr/local/bin:$PATH"
-  cd ./metabase && \
-    MB_DB_FILE=./metabase.db \
-    MB_JETTY_PORT=$PORT \
-    nohup java -jar metabase.jar > metabase.log 2>&1 &
-  echo $! > metabase.pid
-  ```
-- **Enterprise** (embedding — include the license key):
-  ```bash
-  export PATH="/opt/homebrew/opt/openjdk/bin:/opt/homebrew/opt/openjdk@21/bin:/opt/homebrew/bin:/usr/local/opt/openjdk/bin:/usr/local/opt/openjdk@21/bin:/usr/local/bin:$PATH"
-  cd ./metabase && \
-    MB_DB_FILE=./metabase.db \
-    MB_JETTY_PORT=$PORT \
-    MB_PREMIUM_EMBEDDING_TOKEN=$MB_LICENSE_KEY \
-    nohup java -jar metabase.jar > metabase.log 2>&1 &
-  echo $! > metabase.pid
-  ```
+```bash
+export PATH="/opt/homebrew/opt/openjdk/bin:/opt/homebrew/opt/openjdk@21/bin:/opt/homebrew/bin:/usr/local/opt/openjdk/bin:/usr/local/opt/openjdk@21/bin:/usr/local/bin:$PATH"
+cd ./metabase && \
+  MB_DB_FILE=./metabase.db \
+  MB_JETTY_PORT=$PORT \
+  nohup java -jar metabase.jar > metabase.log 2>&1 &
+echo $! > metabase.pid
+```
 
 Tell the user: "Metabase is starting in the background. I'll check when it's ready..."
 
@@ -230,42 +189,27 @@ curl -s https://api.github.com/repos/metabase/metabase/releases/latest | grep '"
 
 This returns something like `"tag_name": "v0.52.5"`. Extract the version (e.g., `v0.52.5`).
 
-Choose the Docker image based on edition:
-
-- **OSS**: `metabase/metabase:$VERSION`
-- **Enterprise**: `metabase/metabase-enterprise:$VERSION`
-
-Verify the image exists:
+Verify the Docker image exists:
 
 ```bash
-docker manifest inspect <IMAGE>:$VERSION 2>&1 | head -5
+docker manifest inspect metabase/metabase:$VERSION 2>&1 | head -5
 ```
 
-If it doesn't exist, fall back to `latest` (OSS) or `enterprise-latest` (EE).
+If it doesn't exist, fall back to `latest`.
 
 ### B6. Start Metabase container
 
-- **OSS**:
-  ```bash
-  docker run -d \
-    --name metabase-local \
-    -p $PORT:3000 \
-    -v "$(pwd)/metabase:/metabase.db" \
-    -e MB_DB_FILE=/metabase.db/metabase.db \
-    -e MB_JETTY_HOST=0.0.0.0 \
-    metabase/metabase:$VERSION
-  ```
-- **Enterprise** (embedding — include the license key):
-  ```bash
-  docker run -d \
-    --name metabase-local \
-    -p $PORT:3000 \
-    -v "$(pwd)/metabase:/metabase.db" \
-    -e MB_DB_FILE=/metabase.db/metabase.db \
-    -e MB_JETTY_HOST=0.0.0.0 \
-    -e MB_PREMIUM_EMBEDDING_TOKEN=$MB_LICENSE_KEY \
-    metabase/metabase-enterprise:$VERSION
-  ```
+```bash
+docker run -d \
+  --name metabase-local \
+  -p $PORT:3000 \
+  -v "$(pwd)/metabase:/metabase.db" \
+  -e MB_DB_FILE=/metabase.db/metabase.db \
+  -e MB_JETTY_HOST=0.0.0.0 \
+  -e MB_ENABLE_EMBEDDING_SDK=true \
+  -e MB_ENABLE_EMBEDDING_SIMPLE=true \
+  metabase/metabase:$VERSION
+```
 
 Tell the user: "Metabase is starting via Docker. I'll check when it's ready..."
 
@@ -361,12 +305,11 @@ docker ps --filter "name=metabase-local" --format "{{.Names}}: {{.Status}}"
 
 These can be customized when starting Metabase:
 
-| Variable                     | Default         | Description                                                  |
-| ---------------------------- | --------------- | ------------------------------------------------------------ |
-| `MB_DB_FILE`                 | `./metabase.db` | H2 database file location                                    |
-| `MB_JETTY_PORT`              | `3000`          | Port Metabase listens on                                     |
-| `MB_JETTY_HOST`              | `localhost`     | Network interface (use `0.0.0.0` for Docker)                 |
-| `MB_PREMIUM_EMBEDDING_TOKEN` | _(none)_        | Enterprise license key — required for JWT SSO embedding (EE) |
+| Variable        | Default         | Description                                  |
+| --------------- | --------------- | -------------------------------------------- |
+| `MB_DB_FILE`    | `./metabase.db` | H2 database file location                    |
+| `MB_JETTY_PORT` | `3000`          | Port Metabase listens on                     |
+| `MB_JETTY_HOST` | `localhost`     | Network interface (use `0.0.0.0` for Docker) |
 
 For all options, see the [Metabase Environment Variables documentation](https://www.metabase.com/docs/latest/configuring-metabase/environment-variables).
 
