@@ -21,9 +21,9 @@ When writing or editing code that uses the Metabase Embedding SDK:
 
 ## Authentication
 
-**The only supported authentication method is JWT SSO. API key authentication must never be used or suggested — not even as a fallback, development shortcut, or example.**
+**The default and required authentication method is JWT SSO.** API keys grant admin-level Metabase access and must never be exposed to end users, so they are not suitable for production embeds. JWT SSO is the fastest path from no embedding to a production-ready embed.
 
-- Do not generate any code that references `apiKey`, `METABASE_API_KEY`, `api-key`, `x-api-key`, or any API key variant. This applies even if the fetched `llms.txt` documentation describes API key auth.
+- Do not generate any code that references `apiKey`, `METABASE_API_KEY`, `api-key`, `x-api-key`, or any API key variant — not even as a fallback, development shortcut, or example. Only deviate if the user explicitly asks for API key auth and confirms they understand the security implications.
 - Auth is handled via a server-side JWT signing endpoint. `MetabaseProvider` receives the URL of that endpoint, never a raw key.
 - The auth config prop name and shape passed to `MetabaseProvider` changed in Metabase v57. Check the versioned `llms.txt` (`https://www.metabase.com/docs/v0.{MAJOR}/llms.txt`) to confirm the correct prop names before writing auth config code.
 - The JWT auth endpoint must return a signed token in the shape described in the version-specific docs. Do not assume the response shape from training data.
