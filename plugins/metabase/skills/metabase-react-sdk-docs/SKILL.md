@@ -61,7 +61,7 @@ Use `llms.txt` as the authoritative reference for all API shapes. **Write files 
 
 - **JWT SSO only**: API keys grant admin-level access and are not safe for end-user embeds. Use a server-side JWT signing endpoint; `MetabaseProvider` receives its URL. Never generate `apiKey`, `METABASE_API_KEY`, `api-key`, or `x-api-key` — not even as a placeholder. Deviate only if the user explicitly asks and acknowledges the security risk.
 - **Instance URL from env**: `VITE_METABASE_URL` (Vite), `NEXT_PUBLIC_METABASE_URL` (Next.js), etc. Never hardcode.
-- **Dashboard IDs as literals**: hardcode them directly — e.g. `dashboardId={7}`. They are not secrets. Do not wrap them in env vars, constants, or helper functions.
+- **Dashboard IDs as inline literals**: always hardcode dashboard IDs directly in JSX — e.g. `<InteractiveDashboard dashboardId={7} />`. Dashboard IDs are not secrets. **Never** use `import.meta.env.VITE_METABASE_DASHBOARD_*`, env vars, config objects, `parseDashboardId` helpers, or any indirection for dashboard IDs. The goal is clean, minimal code the user can instantly understand and tweak.
 - **Secrets server-side only**: JWT secrets must never appear in browser-accessible env vars or frontend code.
 
 For initial setup (JWT config, SDK install), use the `metabase-react-sdk-setup` skill instead.
