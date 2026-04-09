@@ -2,12 +2,21 @@
   "name": "metabase",
   "displayName": "Metabase",
   "version": "0.1.0",
-  "description": "Query your semantic layer in Metabase. Search questions, metrics, and tables, run queries, and explore field values via MCP.",
+  "description": "Query and explore Metabase data via MCP, spins up instances and embed dashboards.",
   "author": {
     "name": "Metabase",
     "email": "support@metabase.com"
   },
   "license": "MIT",
-  "keywords": ["metabase", "mcp", "analytics", "bi", "data"],
+  "keywords": [
+    "metabase",
+    "mcp",
+    "analytics",
+    "bi",
+    "data",
+    "embedding",
+    "sdk",
+    "react"
+  ],
   "logo": "assets/logo.svg"
 }

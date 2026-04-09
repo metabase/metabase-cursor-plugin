@@ -13,7 +13,7 @@
     {
       "name": "metabase",
       "source": "./metabase",
-      "description": "Search tables and metrics, run queries, and explore field values"
+      "description": "Search tables and metrics, run queries, explore field values, spins up instances and embed dashboards"
     }
   ]
 }
